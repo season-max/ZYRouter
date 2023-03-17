@@ -1,9 +1,10 @@
 package com.zhangyue.ireader.api.module
 
-import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import com.zhangyue.ireader.api.interfaces.NavigationCallback
 import com.zhangyue.ireader.api.launch.ZYRouter
+import com.zhangyue.ireader.module.RouteMeta
 import java.lang.ref.WeakReference
 
 /**
@@ -15,6 +16,40 @@ class PostCard(path: String) : RouteMeta() {
     }
 
     var activityWeakReference: WeakReference<Context?>? = null
+
+    @JvmField
+    var bundle: Bundle? = null
+
+    @JvmField
+    var action: String? = null
+
+    @JvmField
+    var flag: Int = 0
+
+
+    fun withBundle(bundle: Bundle) {
+        this.bundle = bundle
+    }
+
+    fun withAction(action: String) {
+        this.action = action
+    }
+
+    fun withFlag(flag: Int) {
+        this.flag = flag
+    }
+
+    override fun toString(): String {
+        return "postCard:[" + "\n" +
+                "path:${path}" + "\n" +
+                "routeType:${routeType}" + "\n" +
+                "className:${className}" + "\n" +
+                "destination:${destination}" + "\n" +
+                "bundle:${bundle}" + "\n" +
+                "action:${action}" + "\n" +
+                "flag:${flag}" + "\n" +
+                "]"
+    }
 
 
     /**

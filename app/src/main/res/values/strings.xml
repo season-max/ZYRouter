@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ZYRouter</string>
+
+
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="between_cell">3dp</dimen>
+    <dimen name="test_area_padding">10dp</dimen>
 </resources>

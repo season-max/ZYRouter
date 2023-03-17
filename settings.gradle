@@ -22,3 +22,4 @@ include ':zyrouter-api'
 include ':module_a'
 // 通信 module b
 include ':module_b'
+include ':zyrouter-compiler'

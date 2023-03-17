@@ -41,4 +41,5 @@ dependencies {
 
     implementation project(":zyrouter-annotations")
     implementation project(":zyrouter-api")
+    annotationProcessor project(':zyrouter-compiler')
 }

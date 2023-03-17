@@ -1,9 +1,10 @@
 package com.zhangyue.ireader.api.interfaces
 
-import com.zhangyue.ireader.api.module.RouteMeta
-
 interface IRouteGroup {
 
+    /**
+     * 路由存储到路由表
+     */
     fun loadInto(map: MutableMap<String, RouteMeta>)
 
 }

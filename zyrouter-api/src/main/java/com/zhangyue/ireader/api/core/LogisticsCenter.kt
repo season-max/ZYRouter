@@ -1,8 +1,10 @@
 package com.zhangyue.ireader.api.core
 
 import android.nfc.Tag
+import com.zhangyue.ireader.api.exceptions.PathNotFoundException
 import com.zhangyue.ireader.api.interfaces.IRouteGroup
 import com.zhangyue.ireader.api.launch.Constant
+import com.zhangyue.ireader.api.module.PostCard
 import com.zhangyue.ireader.api.untils.Logger
 
 /**
@@ -50,6 +52,16 @@ class LogisticsCenter {
             obj.loadInto(WareHouse.routeMap)
         }
 
+        fun completion(card: PostCard) {
+            val meta = WareHouse.routeMap[card.path]
+                ?: throw PathNotFoundException("path is not found,path is ${card.path}")
+            Logger.i("路由元数据：\n $meta")
+            // 构造 postCard
+            card.extra = meta.extra
+            card.routeType = meta.routeType
+            card.className = meta.className
+            card.destination = meta.destination
+        }
 
     }
 }

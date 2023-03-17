@@ -1,4 +1,4 @@
-package com.zhangyue.ireader.api.module
+package com.zhangyue.ireader.module
 
 /**
  * 路由跳转类型

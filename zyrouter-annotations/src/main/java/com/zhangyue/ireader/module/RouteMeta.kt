@@ -1,6 +1,7 @@
-package com.zhangyue.ireader.api.module
+package com.zhangyue.ireader.module
 
-import android.os.Bundle
+import javax.lang.model.element.Element
+
 
 /**
  * 路由元数据
@@ -12,10 +13,7 @@ open class RouteMeta() {
      */
     var path: String? = null
 
-    /**
-     * 携带的 bundle 数据
-     */
-    var extra: Bundle? = null
+    var element: Element? = null
 
     /**
      * 目标类的规范名称
@@ -34,7 +32,6 @@ open class RouteMeta() {
 
     constructor(builder: Builder) : this() {
         this.path = builder.path
-        this.extra = builder.extra
         this.routeType = builder.routeType
         this.className = builder.className
         this.destination = builder.destination
@@ -42,15 +39,18 @@ open class RouteMeta() {
 
 
     override fun toString(): String {
-        return "RouteMeta(path='$path', className=$className, destination=$destination, type=$routeType)"
+        return "route meta:[" + "\n" +
+                "path:${path}" + "\n" +
+                "routeType:${routeType}" + "\n" +
+                "className:${className}" + "\n" +
+                "destination:${destination}" + "\n" +
+                "]"
     }
 
     class Builder {
         @JvmField
         var path: String? = null
 
-        @JvmField
-        var extra: Bundle? = null
 
         @JvmField
         var className: String? = null
@@ -63,11 +63,6 @@ open class RouteMeta() {
 
         fun setPath(path: String): Builder {
             this.path = path
-            return this
-        }
-
-        fun setExtra(extra: Bundle): Builder {
-            this.extra = extra
             return this
         }
 
@@ -99,14 +94,12 @@ open class RouteMeta() {
         @JvmStatic
         fun build(
             path: String,
-            extra: Bundle,
             type: RouteType,
             className: String,
             destination: Class<*>
         ): RouteMeta {
             return Builder()
                 .setPath(path)
-                .setExtra(extra)
                 .setRouteType(type)
                 .setClassname(className)
                 .setDestination(destination)
