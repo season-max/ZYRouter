@@ -1,5 +1,6 @@
 package com.zhangyue.ireader.api.core
 
+import android.nfc.Tag
 import com.zhangyue.ireader.api.interfaces.IRouteGroup
 import com.zhangyue.ireader.api.launch.Constant
 import com.zhangyue.ireader.api.untils.Logger
@@ -33,25 +34,20 @@ class LogisticsCenter {
          */
         private fun register(className: String) {
             val cls = Class.forName(className)
-            val interfaces = cls.interfaces
-            if (IRouteGroup::class.java in interfaces) {
-                Logger.i("查找到需要注册的路由 $cls")
-                fillRouteMapInner(cls)
-                fillByPlugin = true
+            val newInstance = cls.getDeclaredConstructor().newInstance()
+            // 类型判断
+            if (newInstance is IRouteGroup) {
+                fillRouteMapInner(newInstance)
             }
         }
 
         /**
          * 填充指定的路由
-         * @param cls ：根据 class 对象进行填充
+         * @param obj ：根据实例对象进行填充
          */
-        private fun fillRouteMapInner(cls: Class<*>) {
-            // 创建实例
-            val instance = cls.getDeclaredConstructor().newInstance()
-            // 调用填充方法
-            val method = cls.getDeclaredMethod(Constant.METHOD_NAME_LOAD_INFO)
-            method.isAccessible = true
-            method.invoke(instance, WareHouse.routeMap)
+        private fun fillRouteMapInner(obj: IRouteGroup) {
+            Logger.i("填充路由：$obj")
+            obj.loadInto(WareHouse.routeMap)
         }
 
 

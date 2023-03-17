@@ -1,8 +1,7 @@
 package com.zhangyue.ireader.api.launch
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import com.zhangyue.ireader.api.core.LogisticsCenter
 import com.zhangyue.ireader.api.core.WareHouse
@@ -11,6 +10,7 @@ import com.zhangyue.ireader.api.exceptions.InitException
 import com.zhangyue.ireader.api.interfaces.NavigationCallback
 import com.zhangyue.ireader.api.module.PostCard
 import com.zhangyue.ireader.api.untils.Logger
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ZYRouter private constructor() {
@@ -27,6 +27,10 @@ class ZYRouter private constructor() {
             Logger.debuggable = flag
         }
 
+        /**
+         * 初始化
+         * @param context application
+         */
         @JvmStatic
         fun init(context: Application) {
             if (mHasInit.get()) {
@@ -44,13 +48,17 @@ class ZYRouter private constructor() {
             if (!mHasInit.get()) {
                 throw InitException("ZYRouter has not init when use")
             }
-            return Holder.instance
+            return Holder.holder
+        }
+
+        fun destroy() {
+            mHasInit.set(false)
+            WareHouse.clear()
         }
     }
 
     private object Holder {
-        @SuppressLint("StaticFieldLeak")
-        val instance = ZYRouter()
+        val holder = ZYRouter()
     }
 
     /**
@@ -63,8 +71,20 @@ class ZYRouter private constructor() {
         return PostCard(path)
     }
 
-    fun navigation(path: String?, activity: Activity?, listener: NavigationCallback?) {
-        val meta = WareHouse.routeMap[path]
+    fun navigation(card: PostCard, context: Context?, listener: NavigationCallback?) {
+        val meta = WareHouse.routeMap[card.path]
+        if (meta == null) {
+            listener?.onLost(card.path)
+            return
+        }
+        // 构造 postCard
+        card.routeType = meta.routeType
+        card.extra = meta.extra
+        card.className = meta.className
+        card.destination = meta.destination
+        card.activityWeakReference = WeakReference(context)
+
+
     }
 
 }

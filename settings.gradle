@@ -14,7 +14,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ZYRouter"
 include ':app'
+// 路由注解
 include ':zyrouter-annotations'
+// 框架核心逻辑
 include ':zyrouter-api'
+// 通信 module a
 include ':module_a'
+// 通信 module b
 include ':module_b'

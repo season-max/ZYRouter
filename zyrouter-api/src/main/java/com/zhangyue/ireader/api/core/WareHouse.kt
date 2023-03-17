@@ -10,5 +10,9 @@ class WareHouse {
 
     companion object {
         var routeMap: MutableMap<String, RouteMeta> = HashMap()
+
+        fun clear() {
+            routeMap.clear()
+        }
     }
 }
